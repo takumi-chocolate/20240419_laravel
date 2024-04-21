@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Author;
+use Illuminate\Http\Request;
+
 // フォームリクエストの読み込み
 use App\Http\Requests\AuthorRequest;
 
@@ -12,7 +13,7 @@ class AuthorController extends Controller
     // データ一覧ページの表示
     public function index()
     {
-        $authors = Author::all();
+        $authors = Author::Paginate(4);
         return view('index', ['authors' => $authors]);
    }
 
@@ -36,8 +37,7 @@ class AuthorController extends Controller
     }
 
    // データ追加用ページの表示
-    public function add()
-    {
+    public function add() {
         return view('add');
     }
 
@@ -47,12 +47,8 @@ class AuthorController extends Controller
         $form = $request->all();
         Author::create($form);
         return redirect('/');
-        $form = [
-            'name' => $request->name,
-            'age' => $request->age,
-            'nationality' => $request->country,
-        ];
-        Author::create($form);
+        
+        
     }
 
     // データ編集ページの表示
@@ -84,12 +80,10 @@ class AuthorController extends Controller
         return redirect('/');
     }
 
-    public function relate(Request $request) //追記
-{
-    $hasItems = Author::has('book')->get();
-    $noItems = Author::doesntHave('book')->get();
-    $param = ['hasItems' => $hasItems, 'noItems' => $noItems];
-    return view('author.index',$param);
-}
+    public function relate(Request $request) {
+        $items = Author::all();
+        return view('author.index', ['items' => $items]);
+    }
 
+   
 }

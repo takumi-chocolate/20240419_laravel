@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
-    use HasFactory;
+   
 
 
     protected $guarded = array('id');
@@ -16,7 +16,7 @@ class Book extends Model
         'title' => 'required',
     );
     public function getTitle(){
-        return 'ID'.$this->id . ':' . $this->title . ' 著者:' . optional($this->author)->name;
+        return 'ID'.$this->id . ':' . $this->title;
     }
     public function author(){ //追記
         return $this->belongsTo('App\Models\Author');
